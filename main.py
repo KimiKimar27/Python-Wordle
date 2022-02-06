@@ -15,7 +15,38 @@ with open("dictionary.txt", "r") as dict_file:
 game_won = False
 word_id = randrange(len(WORD_LIST))
 board = ["_____"] * 5
+key_colors = {
+  "q": "white",
+  "w": "white",
+  "e": "white",
+  "r": "white",
+  "t": "white",
+  "y": "white",
+  "u": "white",
+  "i": "white",
+  "o": "white",
+  "p": "white",
+  "a": "white",
+  "s": "white",
+  "d": "white",
+  "f": "white",
+  "g": "white",
+  "h": "white",
+  "j": "white",
+  "k": "white",
+  "l": "white",
+  "z": "white",
+  "x": "white",
+  "c": "white",
+  "v": "white",
+  "b": "white",
+  "n": "white",
+  "m": "white"
+}
+KEY_LIST = list(key_colors)
+ERASE = '\x1b[1A\x1b[2K'
 os.system("title PyWordle")
+os.system("title PyWordle - {}".format(WORD_LIST[word_id]))
 colorama.init()
 
 ### FUNCTIONS ###
@@ -44,30 +75,47 @@ def word_attempt():
   attempt = input("Enter a five letter word: ").lower()
 
   if len(attempt) != 5:
-    print_board()
-    print("This is not a five letter word. Please try again.")
+    print(f"{ERASE}{ERASE}This is not a five letter word.")
     return word_attempt()
   if attempt not in WORD_LIST_USER:
-    print_board()
-    print("Word not in dictionary.")
+    print(f"{ERASE}{ERASE}Word not in dictionary.")
     return word_attempt()
 
   return attempt
 
 def print_board():
-  os.system("cls")
   for i in range(5):
       print(board[i])
 
+def print_keyboard():
+  for i in range(10):
+    print(colored(KEY_LIST[i], key_colors[KEY_LIST[i]]), end = " ")
+  print("\n ", end = "")
+  for i in range(10, 19):
+    print(colored(KEY_LIST[i], key_colors[KEY_LIST[i]]), end = " ")
+  print("\n   ", end = "")
+  for i in range(19, 26):
+    print(colored(KEY_LIST[i], key_colors[KEY_LIST[i]]), end = " ")
+  print()
+
+def print_screen():
+  os.system("cls")
+  print_board()
+  print()
+  print_keyboard()
+  print()
+
 ### PROGRAM ###
-print_board()
+print_screen()
 i = 0
 while i < 5 and game_won == False:
   board[i] = word_check(word_attempt())
-  print_board()
+  print_screen()
   i += 1
 
 if game_won == True:
   print("\nYou found the correct word!")
 else:
-  print(f"\nOut of attempts\nThe word was {WORD_LIST[word_id]}\nGame over")
+  print("\nOut of attempts")
+  print(f"The word was {WORD_LIST[word_id]}")
+  print("Game over")
