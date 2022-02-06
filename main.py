@@ -1,6 +1,3 @@
-### TO-DO ###
-# Show available letters
-
 ### MODULES ###
 import colorama
 import os
@@ -63,10 +60,13 @@ def word_check(word):
   for i in range(5):
     if word[i] not in WORD_LIST[word_id]:
       colors[i] = "white"
+      key_colors[word[i]] = "grey"
     if word[i] in WORD_LIST[word_id]:
       colors[i] = "red"
+      if key_colors[word[i]] != "green": key_colors[word[i]] = "red"
     if word[i] == WORD_LIST[word_id][i]:
-      colors[i] = "green"   
+      colors[i] = "green"
+      key_colors[word[i]] = "green"
     checked_word += colored(word[i], colors[i])
   
   return checked_word
@@ -114,8 +114,8 @@ while i < 5 and game_won == False:
   i += 1
 
 if game_won == True:
-  print("\nYou found the correct word!")
+  print("You found the correct word!")
 else:
-  print("\nOut of attempts")
+  print("Out of attempts")
   print(f"The word was {WORD_LIST[word_id]}")
   print("Game over")
