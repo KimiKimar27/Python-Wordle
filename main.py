@@ -21,7 +21,7 @@ colorama.init()
 ### FUNCTIONS ###
 def word_check(word):
   global game_won
-  colors = ["yellow"] * 5
+  colors = ["white"] * 5
   checked_word = ""
 
   if word == WORD_LIST[word_id]:
@@ -41,7 +41,7 @@ def word_check(word):
   return checked_word
 
 def word_attempt():
-  attempt = input("Enter a five letter word: ")
+  attempt = input("Enter a five letter word: ").lower()
 
   if len(attempt) != 5:
     print_board()
@@ -56,16 +56,14 @@ def word_attempt():
 
 def print_board():
   os.system("cls")
-  for j in range(5):
-      print(board[j])
+  for i in range(5):
+      print(board[i])
 
 ### PROGRAM ###
 print_board()
 i = 0
 while i < 5 and game_won == False:
-  attempt = word_attempt()
-  print(attempt)
-  board[i] = word_check(attempt)
+  board[i] = word_check(word_attempt())
   print_board()
   i += 1
 
