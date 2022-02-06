@@ -43,7 +43,6 @@ key_colors = {
 KEY_LIST = list(key_colors)
 ERASE = '\x1b[1A\x1b[2K'
 os.system("title PyWordle")
-os.system("title PyWordle - {}".format(WORD_LIST[word_id]))
 colorama.init()
 
 ### FUNCTIONS ###
