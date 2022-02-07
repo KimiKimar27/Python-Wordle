@@ -3,6 +3,7 @@ import colorama
 import os
 from termcolor import colored
 from random import randrange
+from data import access_data
 
 ### VARIABLES AND INITIALIZATION ###
 with open("dictionary_user.txt", "r") as dict_file:
@@ -41,7 +42,7 @@ key_colors = {
   "m": "white"
 }
 KEY_LIST = list(key_colors)
-ERASE = '\x1b[1A\x1b[2K'
+ERASE = "\x1b[1A\x1b[2K"
 os.system("title PyWordle")
 colorama.init()
 
@@ -113,8 +114,10 @@ while i < 5 and game_won == False:
   i += 1
 
 if game_won == True:
-  print("You found the correct word!")
+  print("You found the correct word!\n")
 else:
   print("Out of attempts")
   print(f"The word was {WORD_LIST[word_id]}")
-  print("Game over")
+  print("Game over\n")
+
+access_data(game_won, i)
