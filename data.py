@@ -33,7 +33,7 @@ def check_corruption():
     if len(lines) != 7: return True
     # Sum of wins by row must be equal to total wins
     for i in range(5): wins_calculated += lines[i]
-    if wins_calculated != lines[5]: reset_data()
+    if wins_calculated != lines[5]: return True
 
   return False
 
