@@ -26,12 +26,12 @@ def check_corruption():
   except FileNotFoundError: return True
 
   with open("data", "r") as data_file:
-    # Check if all file data is type int
+    # File contents must be strictly numbers
     try: lines = [int(i) for i in data_file.readlines()]
     except ValueError: return True
     # File must contain exactly 7 lines
     if len(lines) != 7: return True
-    # Check if the sum of wins by row is equal to total wins
+    # Sum of wins by row must be equal to total wins
     for i in range(5): wins_calculated += lines[i]
     if wins_calculated != lines[5]: reset_data()
 
@@ -64,8 +64,3 @@ def access_data(game_won, attempt_no):
     print()
   update_data(game_won, attempt_no)
   print_data()
-
-if __name__ == "__main__":
-  import colorama
-  colorama.init()
-  access_data(True, 3)

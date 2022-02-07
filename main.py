@@ -12,6 +12,7 @@ with open("dictionary.txt", "r") as dict_file:
   WORD_LIST = [line.strip() for line in dict_file]
 game_won = False
 word_id = randrange(len(WORD_LIST))
+ANSWER = WORD_LIST[word_id]
 board = ["_____"] * 5
 key_colors = {
   "q": "white",
@@ -52,19 +53,19 @@ def word_check(word):
   colors = ["white"] * 5
   checked_word = ""
 
-  if word == WORD_LIST[word_id]:
+  if word == ANSWER:
     game_won = True
     checked_word = colored(word, "green")
     return checked_word
 
   for i in range(5):
-    if word[i] not in WORD_LIST[word_id]:
+    if word[i] not in ANSWER:
       colors[i] = "white"
       key_colors[word[i]] = "grey"
-    if word[i] in WORD_LIST[word_id]:
+    if word[i] in ANSWER:
       colors[i] = "red"
       if key_colors[word[i]] != "green": key_colors[word[i]] = "red"
-    if word[i] == WORD_LIST[word_id][i]:
+    if word[i] == ANSWER[i]:
       colors[i] = "green"
       key_colors[word[i]] = "green"
     checked_word += colored(word[i], colors[i])
@@ -117,7 +118,7 @@ if game_won == True:
   print("You found the correct word!\n")
 else:
   print("Out of attempts")
-  print(f"The word was {WORD_LIST[word_id]}")
+  print(f"The word was {ANSWER}")
   print("Game over\n")
 
 access_data(game_won, i)
