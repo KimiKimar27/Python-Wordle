@@ -23,7 +23,9 @@ def check_corruption():
   wins_calculated = 0
   # Check if file exists
   try: open("data", "r")
-  except FileNotFoundError: return True
+  except FileNotFoundError:
+    open("data", "w") # Create file
+    return True
 
   with open("data", "r") as data_file:
     # File contents must be strictly numbers
