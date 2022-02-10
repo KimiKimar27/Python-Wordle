@@ -1,3 +1,4 @@
+import os
 import colorama
 from termcolor import cprint
 from data import check_corruption, reset_data
@@ -76,6 +77,10 @@ def lossStreakCountLargerThanLossTotals():
       data_file.write(line)
   printTestResult("lossStreakCountLargerThanLossTotals")
 
+def fileDoesntExist():
+  os.remove("data")
+  printTestResult("fileDoesntExist")
+
 def testAll():
   reset_data()
   # Start testing
@@ -86,6 +91,7 @@ def testAll():
   streakTypeNotValid()
   winStreakCountLargerThanWinTotals()
   lossStreakCountLargerThanLossTotals()
+  fileDoesntExist()
 
 if __name__ == "__main__":
   testAll()
