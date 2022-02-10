@@ -17,17 +17,18 @@ def reset_data():
   print(colored("Data file error", "red"))
   print("Data file will be reset")
   print("This may have been caused by tampering with the data file or the data file hasn't been created yet")
-  with open("data", "r+") as data_file:
-    data_file.truncate(0)
+  with open("data", "w") as data_file:
     data_file.write("0\n0\n0\n0\n0\n0\n0\n0\n0")
 
 def check_corruption():
   wins_calculated = 0
   # Check if file exists
-  try: open("data", "r")
-  except FileNotFoundError:
-    open("data", "w") # Create file
+  try:
+    open("data", "x")
     return True
+  except FileExistsError:
+    pass
+    
 
   with open("data", "r") as data_file:
     # File contents must be strictly numbers
