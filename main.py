@@ -4,6 +4,7 @@ import os
 from termcolor import colored
 from random import randrange
 from data import access_data
+from collections import Counter
 
 ### VARIABLES AND INITIALIZATION ###
 with open("dictionary_user.txt", "r") as dict_file:
@@ -13,7 +14,7 @@ with open("dictionary.txt", "r") as dict_file:
 game_won = False
 word_id = randrange(len(WORD_LIST))
 ANSWER = WORD_LIST[word_id]
-board = ["_____"] * 5
+board = ["_____"] * 6
 key_colors = {
   "q": "white",
   "w": "white",
@@ -51,26 +52,30 @@ colorama.init()
 def word_check(word):
   global game_won
   colors = ["white"] * 5
-  checked_word = ""
-
+  count_guess = Counter(word)
+  
   if word == ANSWER:
     game_won = True
     checked_word = colored(word, "green")
     return checked_word
 
-  for i in range(5):
-    if word[i] not in ANSWER:
-      colors[i] = "white"
-      key_colors[word[i]] = "grey"
-    if word[i] in ANSWER:
+  for letter in count_guess:
+    answer_letter_indices = [i for i in range(5) if letter == ANSWER[i]]
+    guess_letter_indices = [i for i in range(5) if letter == word[i]]
+    green = set(guess_letter_indices).intersection(set(answer_letter_indices))
+    red = [i for i in guess_letter_indices if i not in green][:len(answer_letter_indices) - len(green)]
+  
+    for i, v in enumerate(colors):
+      if v == "white":
+        if key_colors[word[i]] != "red" or "green": key_colors[word[i]] = "grey"
+    for i in red:
       colors[i] = "red"
       if key_colors[word[i]] != "green": key_colors[word[i]] = "red"
-    if word[i] == ANSWER[i]:
+    for i in green:
       colors[i] = "green"
       key_colors[word[i]] = "green"
-    checked_word += colored(word[i], colors[i])
   
-  return checked_word
+  return ''.join([colored(word[i], colors[i]) for i in range(5)])
 
 def word_attempt():
   attempt = input("Enter a five letter word: ").lower()
@@ -85,7 +90,7 @@ def word_attempt():
   return attempt
 
 def print_board():
-  for i in range(5):
+  for i in range(6):
       print(board[i])
 
 def print_keyboard():
@@ -109,7 +114,7 @@ def print_screen():
 ### PROGRAM ###
 print_screen()
 i = 0
-while i < 5 and game_won == False:
+while i < 6 and game_won == False:
   board[i] = word_check(word_attempt())
   print_screen()
   i += 1
